@@ -51,6 +51,25 @@ public class Queries extends DbConnection{
         }
     }
 
+    public void createTablePayment() {
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "CREATE TABLE `PAYMENT` (\n" +
+                    "  `id` int NOT NULL AUTO_INCREMENT,\n" +
+                    "  `parkingspacenumber` float(10,2) DEFAULT '0.00',\n" +
+                    "  `startdate` datetime DEFAULT NULL,\n" +
+                    "  `enddate` datetime DEFAULT NULL,\n" +
+                    "  `daysleft` int(10) unsigned DEFAULT NULL,\n" +
+                    "  `totalleft` int(10) unsigned DEFAULT NULL,\n" +
+                    "  PRIMARY KEY (`id`)\n" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+            statement.executeUpdate(sql);
+            System.out.println(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void dropTable() {
         try {
             Statement statement = connection.createStatement();
