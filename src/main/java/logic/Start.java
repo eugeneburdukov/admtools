@@ -15,7 +15,11 @@ public class Start extends DbConnection{
         int choose;
 
         do {
-            System.out.println("\n" + userName + ", please enter: 1 - Create all the required tables, 2 - Create DRIVER, 0 - exit!");
+            System.out.println("\n" + userName + ", " +
+                    "please enter: 1 - Create all the required tables," +
+                    " 2 - Insert data into all the required tables," +
+                    " 3 - Select from tables" +
+                    " 0 - exit!");
             choose = scanner.nextInt();
 
             switch (choose) {
@@ -25,7 +29,10 @@ public class Start extends DbConnection{
                     queries.createTablePayment();
                     break;
                 case 2:
-                    queries.createTableDriver();
+                    queries.insertIntoTableCar();
+                    break;
+                case 3:
+                    queries.getSelectFromCAR();
                     break;
                 case 0:
                     System.out.println("See you next time");
