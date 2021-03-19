@@ -12,8 +12,7 @@ public class DbConnection {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        //mysql -h'avf01.mysql.tools' -u'avf01_library' -p'C96%6-Ljbk' avf01_library
+        
         String serverName = ConnectionDetails.serverName;
         String databaseName = ConnectionDetails.databaseName;
         String ignoreSSL = ConnectionDetails.ignoreSSL;
