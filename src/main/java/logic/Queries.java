@@ -155,6 +155,24 @@ public class Queries extends DbConnection {
         }
     }
 
+    public void getJoinTableResult() {
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "select books.title, authors.name " +
+                    "from authors join books on books.author = authors.id where authors.country = 'UKRAINE'";
+            ResultSet result = statement.executeQuery(sql);
+            System.out.println(sql + ";");
+            while (result.next()) {
+                String title = result.getString("title");
+                String name = result.getString("name");
+
+                System.out.println(" | " + title + " | " + name + " | ");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 /*    public void dropTable() {
         try {
             Statement statement = connection.createStatement();

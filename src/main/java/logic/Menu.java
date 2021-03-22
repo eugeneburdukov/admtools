@@ -16,6 +16,7 @@ public class Menu extends DbConnection {
                     " 2 - Insert data into all the tables," +
                     " 3 - Select from tables," +
                     " 4 - Record data into collections," +
+                    " 5 - JOIN tables," +
                     " 0 - exit!");
             choose = scanner.nextInt();
 
@@ -35,6 +36,9 @@ public class Menu extends DbConnection {
                 case 4:
                     queries.getAuthorResult();
                     queries.getBookResult();
+                    break;
+                case 5:
+                    queries.getJoinTableResult();
                     break;
                 case 0:
                     System.out.println("See you next time");
