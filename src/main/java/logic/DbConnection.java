@@ -12,7 +12,7 @@ public class DbConnection {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        
+
         String serverName = ConnectionDetails.serverName;
         String databaseName = ConnectionDetails.databaseName;
         String ignoreSSL = ConnectionDetails.ignoreSSL;
