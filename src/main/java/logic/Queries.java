@@ -173,16 +173,28 @@ public class Queries extends DbConnection {
         }
     }
 
-/*    public void dropTable() {
+    public void getTest() {
+        ArrayList<Book> newBooks = new ArrayList<>();
+        newBooks.add(new Book("Journey to the Center of the Earth", "Jules Verne", "new"));
+        newBooks.add(new Book("1984", "George Orwell", "new"));
+        newBooks.add(new Book("War & Peace", "Leo Tolstoy", "one of the greatest authors of all time"));
+        newBooks.add(new Book("Sherlock Holmes","Arthur Conan Doyle","read"));
+
+        System.out.println(newBooks);
+    }
+
+    public void dropTable() {
         try {
             Statement statement = connection.createStatement();
-            String sql = "DROP TABLE authors";
-            statement.execute(sql);
-            System.out.println(sql + ";");
+            String sqlBooks = "DROP TABLE books";
+            String sqlAuthors = "DROP TABLE authors";
+            statement.execute(sqlBooks);
+            statement.execute(sqlAuthors);
+            System.out.println(sqlBooks + ";\n" + sqlAuthors + "\nTables books and authors have been removed!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }*/
+    }
 
 
 }

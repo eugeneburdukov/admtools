@@ -40,6 +40,9 @@ public class Menu extends DbConnection {
                 case 5:
                     queries.getJoinTableResult();
                     break;
+                case 6:
+                    queries.dropTable();
+                    break;
                 case 0:
                     System.out.println("See you next time");
                     break;

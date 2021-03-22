@@ -13,6 +13,12 @@ public class Book {
         this.notes = notes;
     }
 
+    public Book(String title, String author, String notes) {
+        this.title = title;
+        this.author = author;
+        this.notes = notes;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
