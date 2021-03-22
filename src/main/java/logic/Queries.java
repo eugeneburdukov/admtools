@@ -88,8 +88,8 @@ public class Queries extends DbConnection {
                 String name = result.getString("name");
                 String country = result.getString("country");
                 System.out.println(id + ", " + name + ", " + country);
-
             }
+            System.out.println();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -127,6 +127,7 @@ public class Queries extends DbConnection {
             for (Author e : authors) {
                 System.out.println(e);
             }
+            System.out.println();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -222,7 +223,7 @@ public class Queries extends DbConnection {
             String sqlAuthors = "DROP TABLE authors";
             statement.execute(sqlBooks);
             statement.execute(sqlAuthors);
-            System.out.println(sqlBooks + ";\n" + sqlAuthors + "\nTables books and authors have been removed!");
+            System.out.println("Tables books and authors have been removed!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
