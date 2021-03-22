@@ -1,9 +1,6 @@
 package logic;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Queries extends DbConnection {
@@ -27,7 +24,7 @@ public class Queries extends DbConnection {
                     "  PRIMARY KEY (`id`)\n" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4";
             statement.executeUpdate(sql);
-            System.out.println(sql);
+            System.out.println("authors table has been created!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -46,7 +43,7 @@ public class Queries extends DbConnection {
                     "  CONSTRAINT `author` FOREIGN KEY (`author`) REFERENCES `authors` (`id`)\n" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4";
             statement.executeUpdate(sql);
-            System.out.println(sql);
+            System.out.println("books table has been created!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -60,7 +57,7 @@ public class Queries extends DbConnection {
                     "('PhenemoreCooper','USA'),\n" +
                     "('Shevchenko','Ukraine');";
             statement.executeUpdate(sql);
-            System.out.println(sql);
+            System.out.println("data has been inserted into authors table!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -74,7 +71,7 @@ public class Queries extends DbConnection {
                     "('LastofMohicans ',2,NULL),\n" +
                     "('Kobzar',3,NULL);";
             statement.executeUpdate(sql);
-            System.out.println(sql);
+            System.out.println("data has been inserted into books table!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -173,14 +170,49 @@ public class Queries extends DbConnection {
         }
     }
 
-    public void getTest() {
-        ArrayList<Book> newBooks = new ArrayList<>();
-        newBooks.add(new Book("Journey to the Center of the Earth", "Jules Verne", "new"));
-        newBooks.add(new Book("1984", "George Orwell", "new"));
-        newBooks.add(new Book("War & Peace", "Leo Tolstoy", "one of the greatest authors of all time"));
-        newBooks.add(new Book("Sherlock Holmes","Arthur Conan Doyle","read"));
+/*    public void insertNewValuesIntoBooks0() {
+        // the mysql insert statement
+        String query = "insert into books(title, author, notes)"
+                + " values (?, ?, ?)";
 
-        System.out.println(newBooks);
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = null;
+        try {
+            preparedStmt = connection.prepareStatement(query);
+            preparedStmt.setString(1, "Journey to the Center of the Earth");
+            preparedStmt.setInt(2, 2);
+            preparedStmt.setString(3, "new");
+            System.out.println(query);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }*/
+
+    public void insertNewValuesIntoBooks() {
+        ArrayList<Book> newBooks1 = new ArrayList<>();
+        newBooks1.add(new Book("I Was Thirteen", "3", "new"));
+        newBooks1.add(new Book("The Mighty Dnieper", "3", "new"));
+        newBooks1.add(new Book("A Reflection", "3", "new"));
+        // the mysql insert statement
+        String sql = "insert into books(title, author, notes)"
+                + " values (?, ?, ?)";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            for (Book e : newBooks1) {
+                preparedStatement.setString(1, e.title);
+                preparedStatement.setInt(2, Integer.parseInt(e.author));
+                preparedStatement.setString(3, e.notes);
+                preparedStatement.execute();
+            }
+            System.out.println("Additional Records have been successfully inserted:");
+            getSelectFromBooks();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void dropTable() {
@@ -195,6 +227,4 @@ public class Queries extends DbConnection {
             System.out.println(e.getMessage());
         }
     }
-
-
 }
