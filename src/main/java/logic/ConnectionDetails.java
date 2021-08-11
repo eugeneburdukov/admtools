@@ -1,10 +1,9 @@
 package logic;
 
 public final class ConnectionDetails {
-    //mysql -h'eugeneburdu.com' -u'eugenemysql' -p'eugenemysqlP12$!'
-    public static final String serverName = "eugeneburdu.com";
-    public static final String databaseName = "library";
-    public static final String ignoreSSL = "?verifyServerCertificate=false&useSSL=true";
-    public static final String username = "eugenemysql";
-    public static final String password = "eugenemysqlP12$!";
+    public static final String SERVER_NAME = "109.106.246.151";
+    public static final String DATABASE_NAME = "u205058801_Test2";
+    public static final String VERIFY_SERVER_CERTIFICATE_FALSE_USE_SSL_TRUE = "?verifyServerCertificate=false&useSSL=true";
+    public static final String USERNAME = "u205058801_Test2User";
+    public static final String PASSWORD = "#!s#nj4Pq";
 }

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Menu extends DbConnection {
-    public void run() throws SQLException {
+    public void run() {
         Scanner scanner = new Scanner(System.in);
         Queries queries = new Queries();
 
@@ -14,45 +14,33 @@ public class Menu extends DbConnection {
 
         do {
             System.out.println("""
-                    \nPlease enter:\s
-                     1 - Create all the required tables,
-                     2 - Insert data into all the tables,
-                     3 - Select from tables,
-                     4 - Record data into collections,
-                     5 - JOIN tables,
-                     6 - insert additional entries to books table,
-                     7 - remove all the tables,
+                    \nPlease choose:\s
+                     1 - Select data from Actor table,
+                     2 - Select data from Actor table & insert to actors ArrayList,
+                     3 - insert Johny Depp to Actor table,
+                     4 - select the latest entry from Actor table,
+                     5 - delete Johny Depp records from Actor
                      0 - exit!\n""");
             choose = scanner.nextInt();
 
             switch (choose) {
                 case 1:
-                    queries.createTableAuthors();
-                    queries.createTableBooks();
+                    queries.getSelectFromActor();
                     break;
                 case 2:
-                    queries.insertIntoAuthors();
-                    queries.insertIntoBooks();
+                    queries.getActorList();
                     break;
                 case 3:
-                    queries.getSelectFromAuthors();
-                    queries.getSelectFromBooks();
+                    queries.insertValuesIntoActor();
                     break;
                 case 4:
-                    queries.getAuthorResult();
-                    queries.getBookResult();
+                    queries.getLastFromActor();
                     break;
                 case 5:
-                    queries.getJoinTableResult();
-                    break;
-                case 6:
-                    queries.insertNewValuesIntoBooks();
-                    break;
-                case 7:
-                    queries.dropTable();
+                    queries.deleteFromActor();
                     break;
                 case 0:
-                    System.out.println("See you next time!");
+                    System.out.println("Good bye!");
                     break;
                 default:
                     System.out.println("Make a choice!");

@@ -13,12 +13,12 @@ public class DbConnection {
             e.printStackTrace();
         }
 
-        String serverName = ConnectionDetails.serverName;
-        String databaseName = ConnectionDetails.databaseName;
-        String ignoreSSL = ConnectionDetails.ignoreSSL;
+        String serverName = ConnectionDetails.SERVER_NAME;
+        String databaseName = ConnectionDetails.DATABASE_NAME;
+        String ignoreSSL = ConnectionDetails.VERIFY_SERVER_CERTIFICATE_FALSE_USE_SSL_TRUE;
         String url = "jdbc:mysql://" + serverName + "/" + databaseName + ignoreSSL;
-        String username = ConnectionDetails.username;
-        String password = ConnectionDetails.password;
+        String username = ConnectionDetails.USERNAME;
+        String password = ConnectionDetails.PASSWORD;
         try {
             connection = DriverManager.getConnection(url, username, password);
             return connection;

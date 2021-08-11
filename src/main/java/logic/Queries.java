@@ -8,123 +8,46 @@ public class Queries extends DbConnection {
     public String isConnected() {
         Connection connection = getConnection();
         if (connection != null) {
-            return "Connection to the '" + ConnectionDetails.serverName + "' host was successfull!";
+            return "Connection to the '" + ConnectionDetails.SERVER_NAME + "' host was successfull!";
         }
 
         return "Connection Error! Please review login details!";
     }
 
-    public void createTableAuthors() {
+    public void getSelectFromActor() {
         try {
             Statement statement = connection.createStatement();
-            String sql = "CREATE TABLE `authors` (\n" +
-                    "  `id` int NOT NULL AUTO_INCREMENT,\n" +
-                    "  `name` varchar(45) NOT NULL,\n" +
-                    "  `country` varchar(20) NOT NULL,\n" +
-                    "  PRIMARY KEY (`id`)\n" +
-                    ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4";
-            statement.executeUpdate(sql);
-            System.out.println("authors table has been created!");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void createTableBooks() {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "CREATE TABLE `books` (\n" +
-                    "  `id` int NOT NULL AUTO_INCREMENT,\n" +
-                    "  `title` varchar(45) NOT NULL,\n" +
-                    "  `author` int NOT NULL,\n" +
-                    "  `notes` varchar(45) DEFAULT NULL,\n" +
-                    "  PRIMARY KEY (`id`),\n" +
-                    "  KEY `author_idx` (`author`),\n" +
-                    "  CONSTRAINT `author` FOREIGN KEY (`author`) REFERENCES `authors` (`id`)\n" +
-                    ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4";
-            statement.executeUpdate(sql);
-            System.out.println("books table has been created!");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void insertIntoAuthors() {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "insert into authors(name, country) values\n" +
-                    "('Schieldt','USA'),\n" +
-                    "('PhenemoreCooper','USA'),\n" +
-                    "('Shevchenko','Ukraine');";
-            statement.executeUpdate(sql);
-            System.out.println("data has been inserted into authors table!");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void insertIntoBooks() {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "insert into books(title, author, notes) values\n" +
-                    "('Java8',1,NULL),\n" +
-                    "('LastofMohicans ',2,NULL),\n" +
-                    "('Kobzar',3,NULL);";
-            statement.executeUpdate(sql);
-            System.out.println("data has been inserted into books table!");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void getSelectFromAuthors() {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "select id, name, country from authors;";
+            String sql = "select ActorID, Name, Midlename, Surname, YearOfBirth, CountryKey from Actor;";
             ResultSet result = statement.executeQuery(sql);
             System.out.println(sql);
             while (result.next()) {
-                String id = result.getString("id");
-                String name = result.getString("name");
-                String country = result.getString("country");
-                System.out.println(id + ", " + name + ", " + country);
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void getSelectFromBooks() {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "select id, title, author, notes from books;";
-            ResultSet result = statement.executeQuery(sql);
-            System.out.println(sql);
-            while (result.next()) {
-                String id = result.getString("id");
-                String title = result.getString("title");
-                String author = result.getString("author");
-                String notes = result.getString("notes");
-                System.out.println(id + ", " + title + ", " + author + ", " + notes);
-
+                String ActorID = result.getString("ActorID");
+                String Name = result.getString("Name");
+                String MiddleName = result.getString("Midlename");
+                String Surname = result.getString("Surname");
+                String YearOfBirth = result.getString("YearOfBirth");
+                String CountryKey = result.getString("CountryKey");
+                System.out.println(ActorID + ", " + Name + ", " + MiddleName + ", " + Surname + ", " + YearOfBirth + ", "
+                        + CountryKey);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void getAuthorResult() {
-        ArrayList<Author> authors = new ArrayList<>();
+    public void getActorList() {
+        ArrayList<Actor> actors = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            String sql = "select * FROM authors";
+            String sql = "select * from Actor";
             ResultSet result = statement.executeQuery(sql);
             while (result.next()) {
-                authors.add(new Author(result.getInt(1), result.getString(2), result.getString(3)));
+                actors.add(new Actor(result.getString(1), result.getString(2),
+                        result.getString(3), result.getString(4),
+                        result.getInt(5), result.getInt(6)));
             }
             System.out.println(sql + ";");
-            for (Author e : authors) {
+            for (Actor e : actors) {
                 System.out.println(e);
             }
             System.out.println();
@@ -133,21 +56,60 @@ public class Queries extends DbConnection {
         }
     }
 
-    public void getBookResult() {
-        ArrayList<Book> books = new ArrayList<>();
+    public void insertValuesIntoActor() {
+        ArrayList<Actor> newActors = new ArrayList<>();
+        newActors.add(new Actor(null, "Johnny", "Christopher", "Depp", 1963,
+                150));
+
+        String sql = "insert into Actor(ActorID, Name, MidleName, Surname, YearOfBirth, CountryKey)"
+                + " values (?, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            for (Actor e : newActors) {
+                preparedStatement.setString(1, e.ActorID);
+                preparedStatement.setString(2, e.Name);
+                preparedStatement.setString(3, e.MiddleName);
+                preparedStatement.setString(4, e.Surname);
+                preparedStatement.setInt(5, e.YearOfBirth);
+                preparedStatement.setInt(6, e.CountryKey);
+                preparedStatement.execute();
+            }
+            System.out.println("Additional Records have been successfully inserted, it might be checked by option 4");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void getLastFromActor() {
         try {
             Statement statement = connection.createStatement();
-            String sql = "select * FROM books";
+            String sql = "select ActorID, Name, Midlename, Surname, YearOfBirth, CountryKey from Actor order by ActorID" +
+                    " desc limit 1;";
             ResultSet result = statement.executeQuery(sql);
+            System.out.println(sql);
             while (result.next()) {
-                books.add
-                        (new Book(result.getInt(1), result.getString(2),
-                                result.getString(3), result.getString(4)));
+                String ActorID = result.getString("ActorID");
+                String Name = result.getString("Name");
+                String MiddleName = result.getString("Midlename");
+                String Surname = result.getString("Surname");
+                String YearOfBirth = result.getString("YearOfBirth");
+                String CountryKey = result.getString("CountryKey");
+                System.out.println(ActorID + ", " + Name + ", " + MiddleName + ", " + Surname + ", " + YearOfBirth + ", "
+                        + CountryKey);
             }
-            System.out.println(sql + ";");
-            for (Book e : books) {
-                System.out.println(e);
-            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteFromActor() {
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "delete from Actor where Name = 'Johnny' and Surname = 'Depp';";
+            System.out.println(sql);
+            statement.executeUpdate(sql);
+            System.out.println("Johnny Depp records do not exist any more, it might be checked by option 1");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -166,64 +128,6 @@ public class Queries extends DbConnection {
 
                 System.out.println(" | " + title + " | " + name + " | ");
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-/*    public void insertNewValuesIntoBooks0() {
-        // the mysql insert statement
-        String query = "insert into books(title, author, notes)"
-                + " values (?, ?, ?)";
-
-        // create the mysql insert preparedstatement
-        PreparedStatement preparedStmt = null;
-        try {
-            preparedStmt = connection.prepareStatement(query);
-            preparedStmt.setString(1, "Journey to the Center of the Earth");
-            preparedStmt.setInt(2, 2);
-            preparedStmt.setString(3, "new");
-            System.out.println(query);
-
-            // execute the preparedstatement
-            preparedStmt.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }*/
-
-    public void insertNewValuesIntoBooks() {
-        ArrayList<Book> newBooks1 = new ArrayList<>();
-        newBooks1.add(new Book("I Was Thirteen", "3", "new"));
-        newBooks1.add(new Book("The Mighty Dnieper", "3", "new"));
-        newBooks1.add(new Book("A Reflection", "3", "new"));
-        // the mysql insert statement
-        String sql = "insert into books(title, author, notes)"
-                + " values (?, ?, ?)";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            for (Book e : newBooks1) {
-                preparedStatement.setString(1, e.title);
-                preparedStatement.setInt(2, Integer.parseInt(e.author));
-                preparedStatement.setString(3, e.notes);
-                preparedStatement.execute();
-            }
-            System.out.println("Additional Records have been successfully inserted:");
-            getSelectFromBooks();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void dropTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String sqlBooks = "DROP TABLE books";
-            String sqlAuthors = "DROP TABLE authors";
-            statement.execute(sqlBooks);
-            statement.execute(sqlAuthors);
-            System.out.println("Tables books and authors have been removed!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
